@@ -1,0 +1,71 @@
+---
+- hosts: all
+  # accelerate: true
+  remote_user: vagrant
+  become_method: sudo
+  vars:
+    - ansible_sudo_pass: vagrant
+    - param_user: vagrant
+  environment:
+    FASTLANE_USER: "{{ apple_dev_user }}"
+    FASTLANE_PASSWORD: "{{ apple_dev_pw }}"
+  tasks:
+    #
+    # Install and update homebrew
+    - name: run brew installer script
+      script: installers/install_brew.sh creates=/usr/local/bin/brew
+    - name: brew update
+      homebrew: update_homebrew=yes upgrade_all=no
+    - name: brew install ruby
+      homebrew: name=ruby state=present
+    - name: gem install tools
+      shell: bash -l -c "gem install --no-document xcode-install"
+
+    #
+    # Install Xcode and all the simulators and enable accessibility
+    # Only do this with new stacks, not with Xcode Edge.
+    - name: Install Xcode 9.1 beta
+      shell: bash -l -c 'xcversion install "{{ xcode_version }}"'
+
+    # iOS simulators
+    - name: xcversion simulators --install="iOS {{ item }}"
+      shell: bash -l -c 'xcversion simulators --install="iOS {{ item }}"'
+      with_items: "{{ extra_ios_simulators }}"
+
+    # tvOS simulators
+    - name: xcversion simulators --install="tvOS {{ item }}"
+      shell: bash -l -c 'xcversion simulators --install="tvOS {{ item }}"'
+      with_items: "{{ extra_tvos_simulators }}"
+
+    # watchOS simulators
+    - name: xcversion simulators --install="watchOS {{ item }}"
+      shell: bash -l -c 'xcversion simulators --install="watchOS {{ item }}"'
+      with_items: "{{ extra_watchos_simulators }}"
+
+    - name: xcversion cleanup
+      shell: bash -l -c 'xcversion cleanup'
+
+    - name: Enable Xcode Helper accessibility for macOS UI testing
+      shell: sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "INSERT INTO access VALUES ('kTCCServiceAccessibility','com.apple.dt.Xcode-Helper',0,1,1,NULL,NULL);"
+      become: yes
+
+    #
+    # Remove Ruby
+    - name: brew remove ruby
+      homebrew: name=ruby state=absent
+
+    #
+    # Switch to Xcode stable, for brew-ing and anything else
+    #  what requires Xcode / Xcode Command Line Tools (e.g. Ruby gems
+    #  with native extension)
+    - name: xcode-select
+      shell: bash -l -c "xcode-select --switch {{ xcode_path }}"
+      become: yes
+    # iOS Simulator list. Call it at least once to initialize these.
+    # It seems since Xcode 8.3 only the first run
+    # initializes the Simulator UDIDs, if we don't call it
+    # during provisioning the UDIDs will change for every boot
+    # and `xcrun simctl list` will take quite some time (~60 seconds).
+    - name: xcrun simctl list
+      shell: bash -l -c "xcrun simctl list"
+      become: yes
