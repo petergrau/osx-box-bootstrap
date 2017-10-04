@@ -27,18 +27,15 @@
     - name: Install Xcode 9.1 beta
       shell: bash -l -c 'xcversion install "{{ xcode_version }}"'
 
-    # iOS simulators
-    - name: xcversion simulators --install="iOS {{ item }}"
+    - name: Install iOS simulators
       shell: bash -l -c 'xcversion simulators --install="iOS {{ item }}"'
       with_items: "{{ extra_ios_simulators }}"
 
-    # tvOS simulators
-    - name: xcversion simulators --install="tvOS {{ item }}"
+    - name: Install tvOS simulators
       shell: bash -l -c 'xcversion simulators --install="tvOS {{ item }}"'
       with_items: "{{ extra_tvos_simulators }}"
 
-    # watchOS simulators
-    - name: xcversion simulators --install="watchOS {{ item }}"
+    - name: Install watchOS simulators
       shell: bash -l -c 'xcversion simulators --install="watchOS {{ item }}"'
       with_items: "{{ extra_watchos_simulators }}"
 
