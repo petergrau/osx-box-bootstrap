@@ -1,0 +1,9 @@
+---
+- name: Stop Java's Helper-Tool
+  shell: launchctl remove com.oracle.java.Helper-Tool
+  become: yes
+  ignore_errors: yes
+- name: Stop Java's Java-Updater
+  shell: launchctl remove com.oracle.java.Java-Updater
+  become: yes
+  ignore_errors: yes

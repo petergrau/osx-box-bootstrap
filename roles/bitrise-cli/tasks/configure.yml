@@ -1,0 +1,48 @@
+---
+#
+# Setup Bitrise specific folders
+#
+# Setup the base folders / paths, referenced by ~/.profiles/bitrise_profile
+# These folders will be created in the HOME directory.
+- name: Setup Bitrise specific folders
+  file: path="{{ bitrise_cli_base_path | mandatory }}/{{ item }}"
+    state=directory
+    owner="{{ bitrise_cli_owner | mandatory }}"
+  loop:
+  - "{{ bitrise_cli_bitrise_source_dir }}"
+  - "{{ bitrise_cli_bitrise_step_dir}}"
+  - "{{ bitrise_cli_bitrise_deploy_dir }}"
+  - "{{ bitrise_cli_bitrise_library_dir }}"
+  - "{{ bitrise_cli_bitrise_profile_dir }}"
+  - "{{ bitrise_cli_bitrise_sym_root }}"
+  - "{{ bitrise_cli_bitrise_obj_root }}"
+  - "{{ bitrise_cli_bitrise_folder_path }}"
+  - "{{ bitrise_cli_bitrise_step_data_folder_path }}"
+  - "{{ bitrise_cli_tools_folder_path }}"
+
+# Sync the tools/ dir
+- name: Sync the tools dir
+  synchronize: src=tools/ dest="{{ bitrise_cli_tools_folder_path }}"
+
+#
+# Setup profiles
+#  we'll create a ~/.profiles folder and add bitrise specific
+#  profiles there.
+- name: "Ensure that {{ bitrise_cli_profile_path }} path exists"
+  file: path="{{ bitrise_cli_profile_path | mandatory }}"
+    state=directory
+    owner="{{ bitrise_cli_owner | mandatory }}"
+    mode=0700
+# this is the main Bitrise profile, includes
+#  the bitrise specific environments
+- name: Setup bitrise_profile
+  template: src=profiles/bitrise_profile.j2
+    dest="{{ bitrise_cli_profile_path | mandatory }}/bitrise_profile"
+    owner="{{ bitrise_cli_owner | mandatory }}"
+    mode=0600
+# Includes 3rd party tools specific environments
+- name: Setup tools_profile
+  copy: src=profiles/tools_profile.j2
+    dest="{{ bitrise_cli_profile_path | mandatory }}/tools_profile"
+    owner="{{ bitrise_cli_owner | mandatory }}"
+    mode=0600

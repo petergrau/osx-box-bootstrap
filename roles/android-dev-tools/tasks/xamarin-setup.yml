@@ -1,0 +1,26 @@
+---
+ # Check if Android NDK is in the correct directory
+- name: Check NDK directory
+  stat:
+    path: "{{ android_dev_tools_xamarin_ndk_bundle_path | mandatory }}"
+  register: android_ndk_dir
+  failed_when: not android_ndk_dir.stat.exists or not android_ndk_dir.stat.isdir
+
+- name: "Ensure that {{ android_dev_tools_profile_file_path }} path exists"
+  file: path="{{ android_dev_tools_profile_file_path | mandatory }}"
+    state=directory
+    owner="{{ android_dev_tools_owner | mandatory }}"
+    mode=0755
+- name: Install the profile file
+  template: src=profiles/xamarin_profile.j2
+    dest="{{ android_dev_tools_profile_file_path | mandatory }}/xamarin_profile"
+    owner="{{ android_dev_tools_owner | mandatory }}"
+    mode=0600
+
+- name: "Ensure that {{ android_dev_tools_xamarin_tools_path }} path exists"
+  file: path="{{ android_dev_tools_xamarin_tools_path | mandatory }}"
+    state=directory
+    owner="{{ android_dev_tools_owner }}"
+
+- name: sync xamarin tools from the provisioning repo
+  synchronize: src=xamarin/ dest="{{ android_dev_tools_xamarin_tools_path | mandatory }}"

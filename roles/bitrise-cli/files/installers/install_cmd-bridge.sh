@@ -4,9 +4,9 @@
   set -ex
 
   # Install from GitHub releases
-  curl -fL https://github.com/bitrise-io/cmd-bridge/releases/download/0.9.5/cmd-bridge-$(uname -s)-$(uname -m) > /usr/local/bin/cmd-bridge
-  chmod +x /usr/local/bin/cmd-bridge
-  cmd-bridge -version
+  # curl -fL https://github.com/bitrise-io/cmd-bridge/releases/download/0.9.5/cmd-bridge-$(uname -s)-$(uname -m) > /usr/local/bin/cmd-bridge
+  # chmod +x /usr/local/bin/cmd-bridge
+  # cmd-bridge -version
 
   # Setup to auto-start
   bitrise_tools_dir="${HOME}/bitrise/tools"

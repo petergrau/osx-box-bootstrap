@@ -1,0 +1,6 @@
+---
+print_message_text:
+  - "---> Finished with automatic stuff - but here's some things you have to do manually:"
+  - " (!) After you finished with the preparations RESTART the machine!"
+  - " (!) Don't forget to remove the VM snapshots (if you used snapshots) before packaging!"
+  - "---> Finished"

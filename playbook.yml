@@ -72,7 +72,9 @@
         dest="/Users/{{ param_user }}/.ssh/authorized_keys"
         owner="{{ param_user }}"
         mode=0600
-    #
+    
+    # TODO: make it idempotent rather then modifying an existing file lines
+    # Have a final config as part of the host settings and override the one on the bxo with it
     # Disable every non SSH key based setup option
     #  allow only SSH key based SSH login
     - name: sshd_config settings
@@ -110,28 +112,7 @@
         owner="{{ param_user }}"
         mode=0600
 
-    #
-    # Setup profiles
-    #  we'll create a ~/.profiles folder and add bitrise specific
-    #  profiles there.
-    - name: ensure .profiles folder is ok
-      file: path=/Users/{{ param_user }}/.profiles
-        state=directory
-        owner="{{ param_user }}"
-        mode=0700
-    # this is the main Bitrise profile, includes
-    #  the bitrise specific environments
-    - name: setup bitrise_profile
-      copy: src=profiles/bitrise_profile
-        dest="/Users/{{ param_user }}/.profiles/bitrise_profile"
-        owner="{{ param_user }}"
-        mode=0600
-    # Includes 3thd party tools specific environments
-    - name: setup tools_profile
-      copy: src=profiles/tools_profile
-        dest="/Users/{{ param_user }}/.profiles/tools_profile"
-        owner="{{ param_user }}"
-        mode=0600
+   
     # ~/.bashrc will load ~/.profiles/bitrise_profile
     #  and the other profiles (~/.profile and ~/.bash_profile) will
     #  load ~/.bashrc, so no matter how the shell is initialized
@@ -256,45 +237,69 @@
     - name: "run git lfs install"
       shell: bash -l -c 'git lfs install'
 
+    ###### Migrated to the weekly-cache-update-playbook
     #
     # Setup Bitrise specific folders
     #
     # Setup the base folders / paths, referenced by ~/.profiles/bitrise_profile
     # These folders will be created in the HOME directory.
-    - name: Setup Bitrise specific folders
-      file: path="/Users/{{ param_user }}/{{ item.fold_path }}"
-        state=directory
-        owner="{{ param_user }}"
-      with_items:
+    #- name: Setup Bitrise specific folders
+    #  file: path="/Users/{{ param_user }}/{{ item.fold_path }}"
+    #    state=directory
+    #    owner="{{ param_user }}"
+    #  with_items:
         # BITRISE_SOURCE_DIR
-        - { fold_path: 'git' }
+    #    - { fold_path: 'git' }
         # BITRISE_STEP_DIR
-        - { fold_path: 'stepdir' }
+    #    - { fold_path: 'stepdir' }
         # BITRISE_DEPLOY_DIR
-        - { fold_path: 'deploy' }
+    #    - { fold_path: 'deploy' }
         # BITRISE_LIBRARY_DIR
-        - { fold_path: 'Library/MobileDevice/Provisioning Profiles' }
+    #    - { fold_path: 'Library/MobileDevice/Provisioning Profiles' }
         # BITRISE_PROFILE_DIR
-        - { fold_path: 'profiles' }
+    #    - { fold_path: 'profiles' }
         # BITRISE_SYM_ROOT
-        - { fold_path: 'build' }
+    #    - { fold_path: 'build' }
         # BITRISE_OBJ_ROOT
-        - { fold_path: 'bin' }
+    #    - { fold_path: 'bin' }
         # BITRISE_FOLDER_PATH
-        - { fold_path: 'bitrise' }
+    #    - { fold_path: 'bitrise' }
         # BITRISE_STEP_DATA_FOLDER_PATH
-        - { fold_path: 'bitrise/stepdata' }
+    #    - { fold_path: 'bitrise/stepdata' }
         #
-        - { fold_path: 'bitrise/tools' }
+    #    - { fold_path: 'bitrise/tools' }
 
     # Sync the tools/ dir
-    - name: Sync the tools dir
-      synchronize: src=tools/ dest="/Users/{{ param_user }}/bitrise/tools/"
+    #- name: Sync the tools dir
+    #  synchronize: src=tools/ dest="/Users/{{ param_user }}/bitrise/tools/"
 
     #
     # Install cmd-bridge
-    - name: run cmd-bridge installer script
-      script: installers/install_cmd-bridge.sh
+    #- name: run cmd-bridge installer script
+    #  script: installers/install_cmd-bridge.sh
+
+    #
+    # Setup profiles
+    #  we'll create a ~/.profiles folder and add bitrise specific
+    #  profiles there.
+    #- name: ensure .profiles folder is ok
+    #  file: path=/Users/{{ param_user }}/.profiles
+    #    state=directory
+    #    owner="{{ param_user }}"
+    #    mode=0700
+    # this is the main Bitrise profile, includes
+    #  the bitrise specific environments
+    #- name: setup bitrise_profile
+    #  copy: src=profiles/bitrise_profile
+    #    dest="/Users/{{ param_user }}/.profiles/bitrise_profile"
+    #    owner="{{ param_user }}"
+    #    mode=0600
+    # Includes 3thd party tools specific environments
+    #- name: setup tools_profile
+    #  copy: src=profiles/tools_profile
+    #    dest="/Users/{{ param_user }}/.profiles/tools_profile"
+    #    owner="{{ param_user }}"
+    #    mode=0600
 
     #
     # Switch to Xcode stable, the default Xcode for building

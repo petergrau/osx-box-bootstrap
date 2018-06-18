@@ -14,19 +14,9 @@ export PATH="$PATH:/usr/local/opt/go/libexec/bin"
 export GOPATH="$HOME/go"
 export PATH="$PATH:$GOPATH/bin"
 
-# Bitrise environments
-if [ -s "$HOME/.profiles/bitrise_profile" ] ; then
-  source "$HOME/.profiles/bitrise_profile"
-fi
-
-# (3rd party) Tools environments
-if [ -s "$HOME/.profiles/tools_profile" ] ; then
-  source "$HOME/.profiles/tools_profile"
-fi
-
-# Xamarin environments, if exists
-if [ -s "$HOME/.profiles/xamarin_profile" ] ; then
-  source "$HOME/.profiles/xamarin_profile"
-fi
+# Apply the profile files
+for profile in $HOME/.profiles/*_profile; do
+    source "${profile}"
+done
 
 # keep a newline at the end of this file

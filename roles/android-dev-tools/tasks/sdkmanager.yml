@@ -1,0 +1,4 @@
+---
+- name: install android tools
+  shell: "(echo y | sdkmanager '{{ item }}') || (echo y | sdkmanager '{{ item }}')"
+  loop: "{{ android_dev_tools_sdkmanager_packages }}"

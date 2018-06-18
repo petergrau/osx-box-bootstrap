@@ -1,0 +1,31 @@
+# for debug
+export DOT_BITRISE_PROFILE_LOADED=1
+export BITRISE_OSX_STACK_REV_ID=v2018_06_14_1
+
+# Bitrise Environment Variables
+export BITRISE_SOURCE_DIR="{{ bitrise_cli_base_path }}/{{ bitrise_cli_bitrise_source_dir }}"
+export BITRISE_STEP_DIR="{{ bitrise_cli_base_path }}/{{ bitrise_cli_bitrise_step_dir }}"
+export BITRISE_DEPLOY_DIR="{{ bitrise_cli_base_path }}/{{ bitrise_cli_bitrise_deploy_dir }}"
+export BITRISE_LIBRARY_DIR="{{ bitrise_cli_base_path }}/{{ bitrise_cli_bitrise_library_dir }}"
+export BITRISE_PROFILE_DIR="{{ bitrise_cli_base_path }}/{{ bitrise_cli_bitrise_profile_dir }}"
+export BITRISE_SYM_ROOT="{{ bitrise_cli_base_path }}/{{ bitrise_cli_bitrise_sym_root }}"
+export BITRISE_OBJ_ROOT="{{ bitrise_cli_base_path }}/{{ bitrise_cli_bitrise_obj_root }}"
+export BITRISE_FOLDER_PATH="{{ bitrise_cli_base_path }}/{{ bitrise_cli_bitrise_folder_path }}"
+export BITRISE_STEP_DATA_FOLDER_PATH="{{ bitrise_cli_base_path }}/{{ bitrise_cli_bitrise_step_data_folder_path }}"
+export BITRISE_STEP_FORMATTED_OUTPUT_FILE_PATH="${BITRISE_STEP_DATA_FOLDER_PATH}/stepoutput"
+
+export BITRISE_KEYCHAIN="bitrise.keychain"
+export BITRISE_KEYCHAIN_PASSWORD="vagrant"
+
+# Tools
+export BITRISE_TOOLS_FOLDER_PATH="{{ bitrise_cli_base_path }}/{{ bitrise_cli_tools_folder_path }}"
+export BITRISE_TOOLS_CMD_BRIDGE_PATH="/usr/local/bin/cmd-bridge"
+# -> add cmd-bridge to PATH
+export PATH="$PATH:${BITRISE_TOOLS_FOLDER_PATH}/cmd-bridge/bin/osx"
+# -> bitrise-bridge
+export BITRISE_BRIDGE_WORKDIR="${BITRISE_SOURCE_DIR}"
+
+# Continuous Integration
+export CI=true
+export BITRISE_IO=true
+# keep a newline at the end of this file

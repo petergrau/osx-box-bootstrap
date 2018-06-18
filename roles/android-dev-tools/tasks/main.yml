@@ -1,0 +1,7 @@
+---
+- include: install-sdk-and-ndk.yml
+  when: android_dev_tools_profile == "hybrid"
+- include: xamarin-setup.yml
+  when: android_dev_tools_profile == "xamarin"
+- include: sdkmanager.yml
+- include: install-debug-keystore.yml

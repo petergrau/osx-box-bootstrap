@@ -1,0 +1,6 @@
+---
+# Available versions:
+# - java (latest, java 10.x)
+# - java8
+# - java6
+java_version: java8

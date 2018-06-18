@@ -1,0 +1,55 @@
+---
+# ----------------------------------------
+# --- Bitrise CLI tools ---
+# ----------------------------------------
+# bitrise CLI: cleanup previous tool versions
+- name: clean up previous 'bitrise'
+  file: path=/usr/local/bin/bitrise state=absent
+
+- name: clean up previous 'stepman'
+  file: path=/usr/local/bin/stepman state=absent
+
+- name: clean up previous 'envman'
+  file: path=/usr/local/bin/envman state=absent
+
+#
+- name: "bitrise CLI: download"
+  shell: bash -l -c "curl -fL https://github.com/bitrise-io/bitrise/releases/download/{{ bitrise_cli_version | mandatory }}/bitrise-{{ ansible_system }}-{{ ansible_machine }} > /usr/local/bin/bitrise"
+- name: "Make the bitrise CLI executable"
+  file: path=/usr/local/bin/bitrise mode="u=rwx,g=rx,o=rx"
+- name: "Bitrise CLI test -version"
+  shell: bash -l -c "bitrise --version"
+# It populates the current user's home (sic!)
+- name: "Bitrise CLI - setup"
+  shell: bash -l -c "bitrise setup"
+- name: "Bitrise CLI - envman -version"
+  shell: bash -l -c "/Users/{{ ansible_user_id }}/.bitrise/tools/envman -version"
+- name: "Bitrise CLI - stepman -version"
+  shell: bash -l -c "/Users/{{ ansible_user_id }}/.bitrise/tools/stepman -version"
+# setup the default StepLib collection to stepman, for a pre-warmed
+#  cache for the StepLib
+- name: "stepman: init"
+  shell: bash -l -c "/Users/{{ ansible_user_id }}/.bitrise/tools/stepman setup -c https://github.com/bitrise-io/bitrise-steplib.git"
+- name: "stepman: update"
+  shell: bash -l -c "/Users/{{ ansible_user_id }}/.bitrise/tools/stepman update"
+
+- name: "bitrise-bridge: download v{{ bitrise_cli_bitrise_bridge_version }}"
+  shell: bash -l -c "curl -fL https://github.com/bitrise-tools/bitrise-bridge/releases/download/{{ bitrise_cli_bitrise_bridge_version | mandatory }}/bitrise-bridge-{{ ansible_system }}-{{ ansible_machine }} > /usr/local/bin/bitrise-bridge"
+- name: "Make the bitrise-bridge executable"
+  file: path=/usr/local/bin/bitrise-bridge mode="u=rwx,g=rx,o=rx"
+- name: "bitrise-bridge -version"
+  shell: bash -l -c "bitrise-bridge --version"
+
+# Pre install cmd-bridge
+- name: "cmd-bridge: download v{{ bitrise_cli_cmd_bridge_version }}"
+  shell: bash -l -c "curl -fL https://github.com/bitrise-io/cmd-bridge/releases/download/{{ bitrise_cli_cmd_bridge_version | mandatory }}/cmd-bridge-{{ ansible_system }}-{{ ansible_machine }} > /usr/local/bin/cmd-bridge"
+- name: "Make the cmd-bridge executable"
+  file: path=/usr/local/bin/cmd-bridge mode="u=rwx,g=rx,o=rx"
+- name: "cmd-bridge -version"
+  shell: bash -l -c "cmd-bridge --version"
+
+# TODO: refactor this script into asible tasks, 
+# it still has the $HOME variable baked in
+# Register cmd-bridge on lauchctl
+- name: Register cmd-bridge on lauchctl
+  script: installers/install_cmd-bridge.sh

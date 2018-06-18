@@ -1,0 +1,37 @@
+---
+- name: Get the installed casks
+  command: brew cask list
+  register: java_installed_casks
+
+- name: Check if {{ java_version }} is installed
+  set_fact: java_install_required="{{ java_version not in java_installed_casks.stdout_lines }}" 
+
+- name: Gather the installed java versions
+  set_fact: java_installed_java_casks="{{ java_installed_casks.stdout_lines | select('match','java*') | list }}"
+  # force changed to true, so that the handlers will be notified
+  changed_when: true
+  when: java_install_required
+  notify: 
+    - "Stop Java's Helper-Tool"
+    - "Stop Java's Java-Updater"
+
+# Stop the java helpers if they are running
+- meta: flush_handlers
+  when: java_install_required
+
+- name: Remove the previously installed java versions
+  homebrew_cask: name={{ item }} state=absent
+  loop: "{{ java_installed_java_casks }}"
+  when: java_install_required
+
+- name: brew tap homebrew/cask-versions
+  homebrew_tap: name='homebrew/cask-versions' state=present
+  when: java_install_required
+
+- name: brew install {{ java_version }}
+  homebrew_cask: name="{{ java_version }}" state=present
+  when: java_install_required
+  # turn off auto java updater and helper tool
+  notify: 
+  - "Stop Java's Helper-Tool"
+  - "Stop Java's Java-Updater"

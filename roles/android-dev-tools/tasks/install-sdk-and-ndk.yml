@@ -1,0 +1,22 @@
+---
+- name: Install build tools
+  homebrew: name={{ item }} state=present
+  loop:
+    - ant
+    - maven
+    - gradle
+- name: Install Android SDK and NDK
+  homebrew_cask: name={{ item }} state=present
+  loop:
+    - android-sdk
+    - android-ndk
+- name: "Ensure {{ android_dev_tools_profile_file_path }} exists"
+  file: path="{{ android_dev_tools_profile_file_path | mandatory }}"
+    state=directory
+    owner="{{ android_dev_tools_owner | mandatory }}"
+    mode=0755
+- name: Install the profile file
+  copy: src=profiles/android_profile
+    dest="{{ android_dev_tools_profile_file_path | mandatory }}/android_profile"
+    owner="{{ android_dev_tools_owner | mandatory }}"
+    mode=0600

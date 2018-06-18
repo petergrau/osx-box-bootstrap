@@ -261,11 +261,16 @@ Install Xamarin Platform on the VM
 To add the Xamarin specific bits you should also run this,
 after you ran the previous steps: `bitrise run provision-xamarin-vm`
 
+### Hybrid Stack notes
+
+_Note: the Hybrid (xcode with android sdk and ndk installed) stack can be built on top of an already provisioned Xcode stack/template.
+To add the Android specific bits you should also run this,
+after you ran the previous steps: `bitrise run provision-hybrid-vm`
 
 ## Layout of this repository
 
 * Root (the directory this README file is in) contains the main `ansible` setup playbooks, and this guide/overview README
-* `tools` dir: will be synchronized as-it-is to the Virtual Machine, under `$HOME/bitrise/tools`
+* `roles/bitrise-cli/files/tools` dir: will be synchronized as-it-is to the Virtual Machine, under `$HOME/bitrise/tools`
 
 
 ## OS X version notes

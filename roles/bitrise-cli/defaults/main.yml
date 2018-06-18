@@ -1,0 +1,20 @@
+---
+bitrise_cli_version:
+bitrise_cli_cmd_bridge_version: "0.9.5"
+bitrise_cli_cmd_bitrise_bridge_version: "0.9.11"
+
+bitrise_cli_owner: #{{ param_user }}
+bitrise_cli_base_path: #/Users/{{ param_user }}
+bitrise_cli_profile_path: #/Users/{{ param_user }}/.profiles
+
+
+bitrise_cli_bitrise_source_dir: git
+bitrise_cli_bitrise_step_dir: stepdir
+bitrise_cli_bitrise_deploy_dir: deploy
+bitrise_cli_bitrise_library_dir: "Library/MobileDevice/Provisioning Profiles"
+bitrise_cli_bitrise_profile_dir: profiles
+bitrise_cli_bitrise_sym_root: build
+bitrise_cli_bitrise_obj_root: bin
+bitrise_cli_bitrise_folder_path: bitrise
+bitrise_cli_bitrise_step_data_folder_path: bitrise/stepdata
+bitrise_cli_tools_folder_path: bitrise/tools

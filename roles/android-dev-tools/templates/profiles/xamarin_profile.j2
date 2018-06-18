@@ -1,4 +1,4 @@
-export BITRISE_XAMARIN_FOLDER_PATH="${BITRISE_FOLDER_PATH}/xamarin"
+export BITRISE_XAMARIN_FOLDER_PATH="{{ android_dev_tools_xamarin_tools_path }}"
 
 # Android Environment Variables
 export ANDROID_HOME=$HOME/Library/Developer/Xamarin/android-sdk-macosx
@@ -9,6 +9,7 @@ else
   # Xamarin Studio
   export ANDROID_NDK_HOME=$HOME/Library/Developer/Xamarin/android-ndk/android-ndk-r11c
 fi
+
 export COMPONENT_PATH="${BITRISE_XAMARIN_FOLDER_PATH}/xamarin-component"
 export NUNIT_3_PATH="${BITRISE_XAMARIN_FOLDER_PATH}/nunit/3.4.1/bin"
 export NUNIT_2_PATH="${BITRISE_XAMARIN_FOLDER_PATH}/nunit/2.6.4/bin"
@@ -17,6 +18,7 @@ export NUNIT_PATH="${NUNIT_3_PATH}"    # This will be replaced with NUNIT_2_PATH
 export PATH=${PATH}:${ANDROID_HOME}/tools
 export PATH=${PATH}:${ANDROID_HOME}/tools/bin
 export PATH=${PATH}:${ANDROID_HOME}/platform-tools
+
 # Xamarin Commands
 export PATH=${PATH}:/Library/Frameworks/Mono.framework/Versions/Current/Commands
 

@@ -1,0 +1,19 @@
+---
+#
+# Ansible playbook to prepare a Bitrise OS X VM/box, used through vagrant
+#
+
+- hosts: all
+  # accelerate: true
+  remote_user: vagrant
+  vars:
+    - ansible_sudo_pass: vagrant
+    - android_dev_tools_owner: "{{ ansible_sudo_pass }}"
+    - android_dev_tools_profile: hybrid
+    - android_dev_tools_profile_file_path: "/Users/{{ android_dev_tools_owner }}/.profiles"
+    - android_dev_tools_debug_keystore_path: "/Users/{{ android_dev_tools_owner }}/.android"
+  roles:
+    - java
+    - android-dev-tools
+    # Final debug prints
+    - print_message

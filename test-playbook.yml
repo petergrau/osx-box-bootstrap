@@ -1,0 +1,46 @@
+---
+- hosts: all
+  remote_user: vagrant
+  tasks:
+    - debug: msg="cacheupdate"
+
+- hosts: all:&{{hybrid}}
+  # accelerate: true
+  remote_user: vagrant
+  vars:
+    - ansible_sudo_pass: vagrant
+    - android_dev_tools_owner: "{{ ansible_sudo_pass }}"
+    - android_dev_tools_profile: hybrid
+    - android_dev_tools_profile_file_path: "/Users/{{ android_dev_tools_owner }}/.profiles"
+    - android_dev_tools_debug_keystore_path: "/Users/{{ android_dev_tools_owner }}/.android"
+  tasks:
+    - debug: msg="hybrid"
+  #roles:
+  #  - java
+  #  - android-dev-tools
+    # Final debug prints
+    #- print_message
+
+- hosts: all:&{{xamarin}}
+  # accelerate: true
+  remote_user: vagrant
+  vars:
+    - ansible_sudo_pass: vagrant
+    - android_dev_tools_owner: vagrant
+    - android_dev_tools_profile: xamarin
+    - android_dev_tools_profile_file_path: "/Users/{{ android_dev_tools_owner }}/.profiles"
+    - android_dev_tools_debug_keystore_path: "/Users/{{ android_dev_tools_owner }}/.local/share/Xamarin/Mono for Android"
+    - android_dev_tools_xamarin_ndk_bundle_path: "/Users/{{ android_dev_tools_owner }}/Library/Developer/Xamarin/android-sdk-macosx/ndk-bundle"
+    - android_dev_tools_xamarin_tools_path: "/Users/{{ android_dev_tools_owner }}/bitrise/xamarin"
+  tasks:
+    - debug: msg="xamarin"
+    #roles:
+      #- java
+      #- android-dev-tools
+      # Final debug prints
+      #- print-message
+
+- hosts: all
+  remote_user: vagrant
+  roles:
+    - print_message
