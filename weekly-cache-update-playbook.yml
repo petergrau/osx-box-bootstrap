@@ -64,6 +64,22 @@
       become: yes
 
     # ----------------------------------------
+    # --- remote access script install ---
+    # ----------------------------------------
+    - name: "create /opt/bitrise folder"
+      file: path="/opt/bitrise"
+        state=directory
+        owner=vagrant
+        group=wheel
+
+    - name: "copy remote access config script"
+      copy:
+        src=scripts/bootstrap_remote_access.sh.tmpl
+        dest=/opt/bitrise/bootstrap_remote_access.sh.tmpl
+        owner=vagrant
+        mode=0777
+
+    # ----------------------------------------
     # --- pre-installed tool cache updates ---
     # ----------------------------------------
 

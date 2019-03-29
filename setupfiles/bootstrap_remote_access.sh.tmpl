@@ -1,0 +1,17 @@
+#!/bin/sh
+
+#change vagrant user password
+dscl . -passwd /Users/vagrant vagrant {{.Password}}
+
+#start ngrok ssh client
+ngrok tcp 22 --authtoken={{.Token}} --remote-addr={{.SSHAddress}}
+
+#start ngrok vnc client
+ngrok tcp 5900 --authtoken={{.Token}} --remote-addr={{.VNCAddress}}
+
+#enable ssh password authentication
+sed -i 's|[#]*PasswordAuthentication (yes|no)|PasswordAuthentication yes|g' /private/etc/ssh/sshd_config
+
+#restart ssh service
+sudo launchctl stop com.openssh.sshd
+sudo launchctl start com.openssh.sshd
