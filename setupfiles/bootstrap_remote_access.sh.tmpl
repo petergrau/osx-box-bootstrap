@@ -7,7 +7,7 @@ dscl . -passwd /Users/vagrant vagrant {{.Password}}
 ngrok tcp 22 --authtoken={{.Token}} --remote-addr={{.SSHAddress}}
 
 #start ngrok vnc client
-ngrok tcp 5900 --authtoken={{.Token}} --remote-addr={{.VNCAddress}}
+#ngrok tcp 5900 --authtoken={{.Token}} --remote-addr={{.VNCAddress}}
 
 #enable ssh password authentication
 sed -i 's|[#]*PasswordAuthentication (yes|no)|PasswordAuthentication yes|g' /private/etc/ssh/sshd_config
