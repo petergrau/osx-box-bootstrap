@@ -80,6 +80,24 @@
         mode=0777
 
     # ----------------------------------------
+    # --- ngrok install ---
+    # ----------------------------------------
+    - name: "ngrok-binary: download"
+      get_url:
+        url: https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+        dest: /tmp/ngrok-stable-linux-amd64.zip
+    - name: "ngrok-binary: install"
+      unarchive:
+        src: /tmp/ngrok-stable-linux-amd64.zip
+        dest: /usr/local/bin
+        copy: no
+        mode: 0700
+    - name: "ngrok-binary: remove temp file"
+      file:
+        path: /tmp/ngrok-stable-linux-amd64.zip
+        state: absent
+
+    # ----------------------------------------
     # --- pre-installed tool cache updates ---
     # ----------------------------------------
 
