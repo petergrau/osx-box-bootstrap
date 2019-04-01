@@ -10,7 +10,7 @@ ngrok tcp 22 --authtoken={{.Token}} --remote-addr={{.SSHAddress}}
 #ngrok tcp 5900 --authtoken={{.Token}} --remote-addr={{.VNCAddress}}
 
 #enable ssh password authentication
-sed -i 's|[#]*PasswordAuthentication (yes|no)|PasswordAuthentication yes|g' /private/etc/ssh/sshd_config
+sed -i "" "s|[#]*PasswordAuthentication yes|PasswordAuthentication yes|g; s|[#]*PasswordAuthentication no|PasswordAuthentication yes|g" /private/etc/ssh/sshd_config
 
 #restart ssh service
 sudo launchctl stop com.openssh.sshd
