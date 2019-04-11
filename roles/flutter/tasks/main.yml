@@ -4,6 +4,7 @@
     - name: brew tap MiderWong/flutter
       homebrew_tap:
         name: MiderWong/flutter
+        state: present
 
     # install flutter stable with brew
     - name: brew install flutter
