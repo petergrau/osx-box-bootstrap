@@ -1,5 +1,8 @@
 ## UPCOMING
 
+## v2019_12_03_1
+* `YAML Linting and Ansible local run added to CI`
+
 ## v2019_11_22_1
 * Default Ruby version upgrade from 2.6.3 to 2.6.5
 
