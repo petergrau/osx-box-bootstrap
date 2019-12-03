@@ -96,8 +96,12 @@ workflows:
         - content: |-
             #!/bin/bash -l
             set -ex
-            pip install --upgrade pip==9.0.3
-            pip install ansible-lint
+            if [[ "$OSTYPE" == *"linux"* ]]; then
+              pip install --upgrade pip==9.0.3
+              pip install ansible-lint
+            else
+              brew install ansible-lint
+            fi
     - script:
         title: Valdate bitrise.yml
         inputs:
