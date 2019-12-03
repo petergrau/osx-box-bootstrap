@@ -141,6 +141,14 @@ workflows:
 
             yamllint -c ./yamllint.yml .
     - script:
+      title: pod repo remove master
+      run_if: .IsCI
+      inputs:
+      - content: |-
+          #!/bin/bash -l
+          set -ex
+          pod repo remove master
+    - script:
         title: Test Ansible Playbook on CI build VM
         run_if: .IsCI
         inputs:
