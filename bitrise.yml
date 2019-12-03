@@ -137,7 +137,7 @@ workflows:
 
             pip3 --version
 
-            pip install -q yamllint
+            pip3 install -q yamllint
 
             yamllint -c ./yamllint.yml .
     - script:
