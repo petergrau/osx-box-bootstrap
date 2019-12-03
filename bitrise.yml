@@ -118,3 +118,30 @@ workflows:
             done
 
             exit 0
+    - script:
+        title: Install and run Yamllint
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            set -ex
+
+            # Only install pip3 on Linux stacks. OSX stacks already has it.
+            if [[ "$OSTYPE" == *"linux"* ]]; then
+                sudo apt update
+                sudo apt install -y python3-pip
+            fi
+
+            pip3 --version
+
+            pip install -q yamllint
+
+            yamllint -c ./yamllint.yml .
+    - script:
+        title: Test Ansible Playbook on CI build VM
+        run_if: .IsCI
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            set -ex
+
+            ansible-playbook --connection=local --inventory 127.0.0.1, --limit 127.0.0.1 playbook.yml

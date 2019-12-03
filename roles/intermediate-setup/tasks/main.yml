@@ -100,8 +100,7 @@
 
 - name: brew install java
   homebrew_cask: name=java state=present
-  
-  
+
 - name: "Firebase (CLI)"
   shell: curl -sL firebase.tools | bash
   become: yes
@@ -137,13 +136,13 @@
 - name: brew install go
   homebrew: name=go state=present
 - name: prepare GOPATH dirs
-  file: path="/Users/{{ param_user }}/go/{{ item.fold_path }}"
+  file: path="/Users/{{ param_user }}/go/{{ item }}"
     state=directory
     owner="{{ param_user }}"
-  with_items:
-    - { fold_path: 'src' }
-    - { fold_path: 'bin' }
-    - { fold_path: 'pkg' }
+  loop:
+    - src
+    - bin
+    - pkg
 
 
 # Default ruby version (brew installed ruby)
@@ -189,30 +188,30 @@
 # Setup the base folders / paths, referenced by ~/.profiles/bitrise_profile
 # These folders will be created in the HOME directory.
 - name: Setup Bitrise specific folders
-  file: path="/Users/{{ param_user }}/{{ item.fold_path }}"
+  file: path="/Users/{{ param_user }}/{{ item }}"
     state=directory
     owner="{{ param_user }}"
-  with_items:
+  loop:
     # BITRISE_SOURCE_DIR
-    - { fold_path: 'git' }
+    - git
     # BITRISE_STEP_DIR
-    - { fold_path: 'stepdir' }
+    - stepdir
     # BITRISE_DEPLOY_DIR
-    - { fold_path: 'deploy' }
+    - deploy
     # BITRISE_LIBRARY_DIR
-    - { fold_path: 'Library/MobileDevice/Provisioning Profiles' }
+    - 'Library/MobileDevice/Provisioning Profiles'
     # BITRISE_PROFILE_DIR
-    - { fold_path: 'profiles' }
+    - profiles
     # BITRISE_SYM_ROOT
-    - { fold_path: 'build' }
+    - build
     # BITRISE_OBJ_ROOT
-    - { fold_path: 'bin' }
+    - bin
     # BITRISE_FOLDER_PATH
-    - { fold_path: 'bitrise' }
+    - bitrise
     # BITRISE_STEP_DATA_FOLDER_PATH
-    - { fold_path: 'bitrise/stepdata' }
+    - bitrise/stepdata
     #
-    - { fold_path: 'bitrise/tools' }
+    - bitrise/tools
 
 # Sync the tools/ dir
 - name: Sync the tools dir

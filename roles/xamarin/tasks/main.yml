@@ -65,12 +65,13 @@
 # Setup the base folders / paths, referenced by ~/.profiles/xamarin_profile
 # These folders will be created in the HOME directory.
 - name: Create bitrise xamarin specific dirs
-  file: path="/Users/{{ param_user }}/{{ item.fold_path }}"
-    state=directory
-    owner="{{ param_user }}"
-  with_items:
+  file:
+    path: "/Users/{{ param_user }}/{{ item }}"
+    state: directory
+    owner: "{{ param_user }}"
+  loop:
     # Xamarin tools
-    - { fold_path: 'bitrise/xamarin' }
+    - 'bitrise/xamarin'
 
 - name: sync xamarin tools from the provisioning repo
   synchronize: src=xamarin/ dest="/Users/{{ param_user }}/bitrise/xamarin/"
