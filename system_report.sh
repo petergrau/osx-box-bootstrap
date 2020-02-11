@@ -137,9 +137,9 @@ echo "=== Checking Xcode CLT dirs ============"
 # installed by `xcode-select --install`, if called *before*
 #  Xcode.app is installed
 echo
-echo " * ls -1 /usr/include/CommonCrypto"
-ls -1 /usr/include/CommonCrypto
-echo
+#echo " * ls -1 /usr/include/CommonCrypto"
+#ls -1 /usr/include/CommonCrypto
+#echo
 echo " * ls -1 /Library/Developer/CommandLineTools/"
 ls -1 /Library/Developer/CommandLineTools/
 echo
