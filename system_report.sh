@@ -54,11 +54,11 @@ echo
 ver_line="$(brew --version)" ;                    echo "* brew: $ver_line"
 
 # xctool was removed, not installed on new Stacks
-set +e
-ver_line="$(xctool --version)" ;                  echo "* xctool: $ver_line"
-if [[ "${IS_IGNORE_ERRORS}" != "true" ]] ; then
-set -e
-fi
+#set +e
+#ver_line="$(xctool --version)" ;                  echo "* xctool: $ver_line"
+#if [[ "${IS_IGNORE_ERRORS}" != "true" ]] ; then
+#set -e
+#fi
 
 ver_line="$(ansible --version | grep ansible)" ;  echo "* Ansible: $ver_line"
 ver_line="$(gtimeout --version | grep 'timeout')" ;  echo "* gtimeout: $ver_line"
