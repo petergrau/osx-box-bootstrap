@@ -104,11 +104,8 @@
 - name: clean up previous 'envman'
   file: path=/usr/local/bin/envman state=absent
 
-- name: Get latest CLI release url # noqa 306
-  shell: bash -l -c "curl -sL https://api.github.com/repos/bitrise-io/bitrise/releases/latest | grep Darwin | tail -1 | cut -d'"' -f4- | tr -d '"'"
-  register: release_url
-- name: Download latest Bitrise CLI
-  shell: bash -l -c "curl -s -fL "{{ release_url.stdout }}" > /usr/local/bin/bitrise"
+- name: Download latest Bitrise CLI # noqa 306
+  shell: bash -l -c "curl -fL $(curl -sL https://api.github.com/repos/bitrise-io/bitrise/releases/latest | grep Darwin | tail -1 | cut -d\" -f4- | tr -d \") > /usr/local/bin/bitrise"
 - name: "Make the bitrise CLI executable"
   file: path=/usr/local/bin/bitrise mode="u=rwx,g=rx,o=rx"
 - name: "Bitrise CLI test -version"
