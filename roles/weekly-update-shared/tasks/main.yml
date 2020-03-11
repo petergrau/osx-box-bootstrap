@@ -104,11 +104,11 @@
 - name: clean up previous 'envman'
   file: path=/usr/local/bin/envman state=absent
 
-- name: "bitrise CLI: download" # noqa 303 306
-  # Lines should be no longer than 160 chars
-  shell: |
-    url=$(curl -sL https://api.github.com/repos/bitrise-io/bitrise/releases/latest | jq -r '.assets[].browser_download_url' | grep Darwin)
-    curl -fL "${url}" > /usr/local/bin/bitrise
+- name: Get latest CLI release url # noqa 306
+  shell: bash -l -c "curl -sL https://api.github.com/repos/bitrise-io/bitrise/releases/latest | jq -r '.assets[].browser_download_url' | grep Darwin"
+  register: release_url
+- name: Download latest Bitrise CLI
+  shell: bash -l -c "curl -s -fL "{{ release_url.stdout }}" > /usr/local/bin/bitrise"
 - name: "Make the bitrise CLI executable"
   file: path=/usr/local/bin/bitrise mode="u=rwx,g=rx,o=rx"
 - name: "Bitrise CLI test -version"
@@ -126,7 +126,7 @@
 - name: "stepman: update"
   shell: bash -l -c "/Users/vagrant/.bitrise/tools/stepman update"
 
-- name: "cmd-bridge: download" # noqa 306
+- name: "cmd-bridge: download"
   shell: bash -l -c "curl -fL https://github.com/bitrise-io/cmd-bridge/releases/download/0.9.5/cmd-bridge-$(uname -s)-$(uname -m) > /usr/local/bin/cmd-bridge"
 - name: "Make the cmd-bridge executable"
   file: path=/usr/local/bin/cmd-bridge mode="u=rwx,g=rx,o=rx"
