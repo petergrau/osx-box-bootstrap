@@ -104,9 +104,9 @@
 - name: clean up previous 'envman'
   file: path=/usr/local/bin/envman state=absent
 
-- name: "bitrise CLI: download" # noqa 303 306 204
+- name: "bitrise CLI: download" # noqa 303 306
   # Lines should be no longer than 160 chars
-  shell: bash -l -c "curl -fL $(curl -sL https://api.github.com/repos/bitrise-io/bitrise/releases/latest | jq -r '.assets[].browser_download_url' | grep $(uname -s)) > /usr/local/bin/bitrise"
+  shell: bash -l -c "curl -fL $(curl -sL https://api.github.com/repos/bitrise-io/bitrise/releases/latest | jq -r '.assets[].browser_download_url' | grep $(uname -s)) > /usr/local/bin/bitrise" # noqa 204
 - name: "Make the bitrise CLI executable"
   file: path=/usr/local/bin/bitrise mode="u=rwx,g=rx,o=rx"
 - name: "Bitrise CLI test -version"
