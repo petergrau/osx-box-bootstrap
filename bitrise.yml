@@ -177,7 +177,7 @@ workflows:
 
   weekly-cache-update-test:
     before_run:
-      - _install-packer-macos
+      - _install-jq
     after_run:
     - _ansible-play
     envs:
