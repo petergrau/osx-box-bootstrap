@@ -6,6 +6,7 @@ app:
   - ANSIBLE_HOST_KEY_CHECKING: "False"
   - VM_BUILD_IP: $VM_BUILD_IP
   - XCODE_PATH: $XCODE_PATH
+  - GITHUB_TOKEN: $GITHUB_TOKEN
 trigger_map:
 - push_branch: step/1
   workflow: vagrant-setup
