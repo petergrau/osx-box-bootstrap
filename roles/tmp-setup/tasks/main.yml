@@ -68,6 +68,12 @@
   shell: bash -l -c "rbenv global {{ default_ruby }}"
   when: is_incremental_setup|default(false) == false
 
+# visual studio
+- name: brew install visual studio
+  homebrew_cask:
+    name: visual-studio
+    state: present
+
 # Default ruby version (brew installed ruby)
 - name: update rubygems
   shell: bash -l -c "gem update --system --no-document"
