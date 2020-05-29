@@ -96,10 +96,11 @@
 # --- applesimutils install ---
 # ----------------------------------------
 
-- name: "Install applesimutils"
+- name: "Set up wix/brew"
   homebrew_tap:
     name: wix/brew
     state: present
+- name: "Install applesimutils"
   homebrew:
     name: applesimutils
     state: present
