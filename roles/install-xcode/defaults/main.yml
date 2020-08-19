@@ -1,2 +1,12 @@
 ---
 xcode_version: "12 beta 5"
+simulators:
+  - version: "iOS 13.5"
+  - version: "iOS 13.4"
+  - version: "iOS 13.3"
+  - version: "iOS 13.2"
+  - version: "iOS 13.1"
+  - version: "iOS 12.4"
+  - version: "iOS 12.2"
+  - version: "iOS 12.1"
+  - version: "iOS 12.0"
