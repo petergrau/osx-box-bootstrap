@@ -92,6 +92,18 @@
   with_items:
     - "{{ brew_packages }}"
 
+#xclogparser is not available on 9.4 and 10.3 so skip it
+#TODO: ignore from the items list
+- name: Register Xcode version
+  shell: bash -l -c "$(/usr/bin/xcodebuild -version | head -n 1)"
+  register: xcode_version
+
+- name: Install xclogparser
+  homebrew:
+    name: xclogparser
+    state: present
+  when: xcode_version.stdout != "Xcode 9.4" || xcode_version.stdout != "Xcode 10.3"
+
 # ----------------------------------------
 # --- Cleanup ---
 # ----------------------------------------
