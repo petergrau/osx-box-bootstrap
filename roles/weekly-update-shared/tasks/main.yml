@@ -104,7 +104,7 @@
   homebrew:
     name: xclogparser
     state: present
-  when: xcode_version.stdout != "Xcode 9.4" && xcode_version.stdout != "Xcode 10.3" && v
+  when: xcode_version.stdout != "Xcode 9.4" && xcode_version.stdout != "Xcode 10.3"
 
 # ----------------------------------------
 # --- Cleanup ---
