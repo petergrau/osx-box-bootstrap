@@ -95,14 +95,16 @@
 # xclogparser is not available on 9.4 and 10.3 so skip it
 # TODO: ignore from the items list
 - name: Register Xcode version
+  tags: notest
   shell: bash -l -c "$(/usr/bin/xcodebuild -version | head -n 1)"  # noqa 306
   register: xcode_version
 
 - name: Install xclogparser
+  tags: notest
   homebrew:
     name: xclogparser
     state: present
-  when: xcode_version.stdout != "Xcode 9.4" && xcode_version.stdout != "Xcode 10.3"
+  when: xcode_version.stdout != "Xcode 9.4" && xcode_version.stdout != "Xcode 10.3" && v
 
 # ----------------------------------------
 # --- Cleanup ---
