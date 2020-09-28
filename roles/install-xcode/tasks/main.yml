@@ -29,5 +29,5 @@
     XCODE_INSTALL_PASSWORD: "{{ XCODE_INSTALL_PASSWORD }}"
 
 - name: Enable accessibility to xcode
-  shell: bash -l -c "sqlite3 \"/Library/Application Support/com.apple.TCC/TCC.db\" \"INSERT INTO access VALUES('kTCCServiceAccessibility','com.apple.dt.Xcode-Helper',0,1,1,'','','','','','','');\""
+  script: install_accessibility.sh
   become: true
