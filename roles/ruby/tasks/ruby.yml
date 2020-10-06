@@ -1,7 +1,12 @@
 ---
+- name: Installed ruby versions
+  shell: bash -l -c "rbenv versions"
+  register: ruby_versions
+  changed_when: false
+
 - name: Install ruby versions
   shell: bash -l -c "rbenv install --skip-existing {{ item.version }}"
-  when: is_incremental_setup|default(false) == false
+  when: is_incremental_setup|default(false) == false and item not in ruby_versions.stdout
   with_items:
     - "{{ default_ruby }}"
     - "{{ ruby_versions }}"
