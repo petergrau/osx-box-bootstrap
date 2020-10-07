@@ -1,6 +1,7 @@
 ---
 - name: Installed ruby versions
   shell: bash -l -c "rbenv versions"
+  ignore_errors: true
   register: ruby_versions
   changed_when: false
 
