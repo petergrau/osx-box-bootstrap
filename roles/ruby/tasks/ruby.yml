@@ -13,7 +13,7 @@
 
 - name: Install old ruby versions
   shell: bash -l -c "rbenv install --skip-existing {{ item.version }}"
-  when: is_incremental_setup|default(false) == false and 'item not in ruby_versions.stdout' and not lookup('env', 'IS_CI')
+  when: is_incremental_setup|default(false) == false and 'item not in ruby_versions.stdout' and not lookup('env', 'IS_CI')  # yamllint disable-line rule:line-length
   with_items:
     - "{{ ruby_versions }}"
 
