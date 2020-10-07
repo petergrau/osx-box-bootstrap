@@ -194,6 +194,7 @@ workflows:
     - _ansible-play
     envs:
     - LOCAL_PLAYBOOK_PATH: ./weekly-cache-update-playbook.yml
+    - IS_CI: "true"
 
   intermediate-setup-test:
     before_run:
@@ -225,6 +226,7 @@ workflows:
   test_android:
     envs:
     - ROLE: "android"
+    - IS_CI: "true"
     after_run:
     - _run_molecule_test
 
