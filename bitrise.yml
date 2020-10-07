@@ -206,6 +206,7 @@ workflows:
   test_ruby:
     envs:
     - ROLE: "ruby"
+    - IS_CI: "true"
     after_run:
     - _run_molecule_test
 

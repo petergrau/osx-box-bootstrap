@@ -5,11 +5,16 @@
   register: ruby_versions
   changed_when: false
 
-- name: Install ruby versions
+- name: Install default ruby version
   shell: bash -l -c "rbenv install --skip-existing {{ item.version }}"
-  when: is_incremental_setup|default(false) == false and item not in ruby_versions.stdout
+  when: is_incremental_setup|default(false) == false and 'item not in ruby_versions.stdout'
   with_items:
     - "{{ default_ruby }}"
+
+- name: Install old ruby versions
+  shell: bash -l -c "rbenv install --skip-existing {{ item.version }}"
+  when: is_incremental_setup|default(false) == false and 'item not in ruby_versions.stdout' and not lookup('env', 'IS_CI')
+  with_items:
     - "{{ ruby_versions }}"
 
 - name: Set ruby latest to global
