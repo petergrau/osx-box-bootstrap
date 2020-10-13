@@ -87,7 +87,7 @@ workflows:
         - content: |-
             #!/usr/bin/env bash
             set -e
-            sudo pip3 install ansible-lint
+            sudo pip3 install "ansible-lint==${ANSIBLE_LINT_VER}" --force-reinstall
             ansible-lint --version
     - script:
         title: Install yamllint ver = YAML_LINT_VER
@@ -285,7 +285,7 @@ workflows:
       - script-runner:
           title: Install dependencies
           inputs:
-            - file_path: _scripts/install_molecule_dependencies.sh
+            - file_path: _scripts/molecule/install_dependencies.sh
       - change-workdir@1:
           title: hopp into the test folder
           inputs:
@@ -293,5 +293,5 @@ workflows:
       - script-runner:
           title: molecule test
           inputs:
-            - file_path: ../../_scripts/molecule_test.sh
+            - file_path: ../../_scripts/molecule/test.sh
       - deploy-to-bitrise-io@1: {}
