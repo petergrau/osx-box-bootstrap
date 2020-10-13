@@ -11,4 +11,5 @@ brew_packages:
   - name: "xcbeautify"
   - name: "screen"
   - name: "applesimutils"
+  - name: "openconnect"
 ...
